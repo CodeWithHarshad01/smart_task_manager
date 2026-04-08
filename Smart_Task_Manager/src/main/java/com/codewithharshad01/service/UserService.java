@@ -9,7 +9,7 @@ import com.codewithharshad01.entity.User;
 public interface UserService {
 	public User saveUser(User user);
 
-	public Optional<User> getUserById(long id);
+	public User getUserById(long id);
 
 	public Optional<User> updateUser(User user, long id);
 

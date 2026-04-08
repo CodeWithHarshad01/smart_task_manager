@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codewithharshad01.entity.User;
-import com.codewithharshad01.exception.ResourceNotFoundException;
 import com.codewithharshad01.service.UserService;
 
 @RestController
@@ -32,8 +31,7 @@ public class UserController {
 	// Get User By Id
 	@GetMapping("/getUserById/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable long id) {
-		 User user = service.getUserById(id)
-				.orElseThrow(()-> new ResourceNotFoundException("user not found with id :"+id));
+		User user = service.getUserById(id);
 		return ResponseEntity.ok(user);
 	}
 
@@ -53,13 +51,9 @@ public class UserController {
 
 	// Delete User by id
 	@DeleteMapping("/deleteUser/{id}")
-	public String deleteUser(@PathVariable long id) {
-		Optional<User> userById = service.getUserById(id);
-		if (userById.isPresent()) {
-			service.deleteUser(id);
-			return "user delete succesfully...";
-		} else {
-			return "user not found !!!";
-		}
+	public ResponseEntity<?> deleteUser(@PathVariable long id) {
+		service.deleteUser(id);
+		return ResponseEntity.ok("user deleted succesfully...");
+		
 	}
 }
