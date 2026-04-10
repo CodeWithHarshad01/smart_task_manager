@@ -2,6 +2,7 @@ package com.codewithharshad01.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -25,5 +26,22 @@ public class GlobalExceptionHandler {
 	    );
 
 	    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
+
+	    String errorMsg = ex.getBindingResult()
+	            .getFieldErrors()
+	            .stream()
+	            .map(error -> error.getField() + ": " + error.getDefaultMessage())
+	            .findFirst()
+	            .orElse("Validation error");
+
+	    ErrorResponse error = new ErrorResponse(
+	            errorMsg,
+	            HttpStatus.BAD_REQUEST.value()
+	    );
+
+	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 }

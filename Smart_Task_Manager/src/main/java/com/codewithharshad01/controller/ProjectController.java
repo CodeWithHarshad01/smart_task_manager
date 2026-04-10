@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codewithharshad01.entity.Project;
 import com.codewithharshad01.service.ProjectService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
@@ -21,7 +24,7 @@ public class ProjectController {
 	private ProjectService projectService;
 
 	@PostMapping("/addProject")
-	public ResponseEntity<Project> addProject(@RequestBody Project project) {
+	public ResponseEntity<Project> addProject(@Valid @RequestBody Project project) {
 		Project project2 = projectService.addProject(project);
 		return ResponseEntity.ok(project2);
 	}
@@ -33,7 +36,7 @@ public class ProjectController {
 	}
 
 	@PutMapping("/updateProject/{id}")
-	public ResponseEntity<Project> updateProject(@RequestBody Project project, @PathVariable long id) {
+	public ResponseEntity<Project> updateProject(@Valid @RequestBody Project project, @PathVariable long id) {
 		Project updateProject = projectService.updateProject(project, id);
 		return ResponseEntity.ok(updateProject);
 	}

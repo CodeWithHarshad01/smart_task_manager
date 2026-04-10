@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codewithharshad01.entity.User;
 import com.codewithharshad01.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class UserController {
 	@Autowired
@@ -23,7 +25,7 @@ public class UserController {
 
 	// Save User
 	@PostMapping("/saveUser")
-	public User saveUser(@RequestBody User user) {
+	public User saveUser(@Valid @RequestBody User user) {
 		User saveUser = service.saveUser(user);
 		return saveUser;
 	}
@@ -37,7 +39,7 @@ public class UserController {
 
 	// Update User
 	@PutMapping("/updateUser/{id}")
-	public Optional<User> updateUser(@RequestBody User user, @PathVariable long id) {
+	public Optional<User> updateUser(@Valid @RequestBody User user, @PathVariable long id) {
 		Optional<User> updateUser = service.updateUser(user, id);
 		return updateUser;
 	}
